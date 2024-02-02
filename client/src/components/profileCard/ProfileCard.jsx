@@ -33,8 +33,8 @@ const ProfileCard = ({ location }) => {
           {profilePage && (
             <>
               <div className="vl" />
-              <div className="follow">
-                <span>3</span>
+              <div className="Follow">
+                <span>3 </span>
                 <span>Posts</span>
               </div>
             </>
