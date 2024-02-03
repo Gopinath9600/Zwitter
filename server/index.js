@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
+import dotenv from "dotenv";
+import AuthRoute from "./Routes/AuthRoute.js";
 
 const app = express();
 
@@ -26,9 +28,9 @@ dotenv.config();
 
 mongoose
   .connect(
-    process.env.MONGO_DB,
-    { useNewUrlParser: true }, //this is specified by MongoDb to use
-    { useUnifiedTopology: true }
+    process.env.MONGO_DB
+    // { useNewUrlParser: true }, //this is specified by MongoDb to use
+    // { useUnifiedTopology: true }
   )
   .then(() =>
     app.listen(process.env.PORT, () =>
@@ -36,3 +38,6 @@ mongoose
     )
   )
   .catch((error) => console.log(error));
+
+//routes
+app.use("/auth", AuthRoute);
