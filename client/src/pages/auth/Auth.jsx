@@ -110,8 +110,7 @@ function Signup() {
 
 export default Auth;
 
-{
-  /* <h3>{ isSignUp?"Sign Up":"Log In" }</h3>
+/* <h3>{ isSignUp?"Sign Up":"Log In" }</h3>
 
 {isSignUp && (
         <div>
@@ -174,4 +173,3 @@ export default Auth;
 
 </form>
 </div> */
-}
