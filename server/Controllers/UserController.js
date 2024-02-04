@@ -42,7 +42,7 @@ export const updateUser = async (req, res) => {
         req.body.password = await bcrypt.hash(password, salt);
       }
       const user = await UserModel.findByIdAndUpdate(id, req.body, {
-        new: true,
+        new: true, // id should be updated by new data which is in req.body
       });
       //   const token = jwt.sign(
       //     { username: user.username, id: user._id },
