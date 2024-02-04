@@ -13,8 +13,8 @@ const app = express();
 //const cors = require('cors'); same as import cors
 
 //to serve images for public
-// app.use(express.static("public"));
-// app.use("/images", express.static("images"));
+app.use(express.static("public")); //public folder
+app.use("/images", express.static("images")); //images directory
 
 //Middleware
 // bodyParser.json:-This middleware function is used to parse incoming request bodies with JSON payloads.
