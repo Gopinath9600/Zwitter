@@ -78,41 +78,43 @@ export const likePost = async (req, res) => {
   }
 };
 
-// export const getTimelinePosts = async (req, res) => {
-//   const userId = req.params.id;
+//includes timeline posts of user's own and the users he is following
+export const getTimelinePosts = async (req, res) => {
+  const userId = req.params.id;
 
-//   try {
-//     const currentUserPosts = await PostModel.find({ userId: userId });
-//     const followingPosts = await UserModel.aggregate([
-//       {
-//         $match: {
-//           _id: new mongoose.Types.ObjectId(userId),
-//         },
-//       },
-//       {
-//         $lookup: {
-//           from: "posts",
-//           localField: "following",
-//           foreignField: "userId",
-//           as: "followingPosts",
-//         },
-//       },
-//       {
-//         $project: {
-//           followingPosts: 1,
-//           _id: 0,
-//         },
-//       },
-//     ]);
+  try {
+    const currentUserPosts = await PostModel.find({ userId: userId });
+    const followingPosts = await UserModel.aggregate([
+      {
+        $match: {
+          _id: new mongoose.Types.ObjectId(userId), // in mongodb before objectId there is a prefix 'ObjectId'
+        },
+      },
+      {
+        $lookup: {
+          from: "posts",
+          localField: "following",
+          foreignField: "userId",
+          as: "followingPosts", //the posts of other user are stored in followingPosts field
+        },
+      },
+      {
+        $project: {
+          followingPosts: 1,
+          _id: 0,
+        },
+      },
+    ]);
 
-//     res.status(200).json(
-//       currentUserPosts
-//         .concat(...followingPosts[0].followingPosts)
-//         .sort((a, b) => {
-//           return b.createdAt - a.createdAt;
-//         })
-//     );
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// };
+    res.status(200).json(
+      currentUserPosts
+        .concat(...followingPosts[0].followingPosts) //simply concating as followingPosts doesn't give results of following posts in proper format
+        .sort((a, b) => {
+          // so that latest posts appear first
+          return b.createdAt - a.createdAt;
+        })
+    );
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
