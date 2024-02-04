@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./Posts.css";
-// import { PostsData } from "../../Data/PostsData.js";
+// import {PostsData} from '../../Data/PostsData.js'
 import Post from "../post/Post.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { getTimelinePosts } from "../../actions/PostAction.js";
@@ -20,10 +20,6 @@ const Posts = () => {
   if (params.id) posts = posts.filter((post) => post.userId === params.id);
   return (
     <div className="Posts">
-      {/* {PostsData.map((post, id) => {
-        return <Post data={post} />;
-      })} */}
-
       {loading
         ? "Fetching Posts..."
         : posts.map((post, id) => {
