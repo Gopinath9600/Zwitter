@@ -24,7 +24,7 @@ export const registerUser = async (req, res) => {
         id: user._id,
       },
       process.env.JWT_KEY,
-      { expiresIn: "1h" }
+      { expiresIn: "1m" }
     ); //the token expires in 1h ie he need to login again at the end of the token
 
     res.status(200).json({ user, token });
@@ -51,7 +51,7 @@ export const loginUser = async (req, res) => {
             id: user._id,
           },
           process.env.JWT_KEY,
-          { expiresIn: "1h" }
+          { expiresIn: "1m" }
         );
 
         res.status(200).json({ user, token });
