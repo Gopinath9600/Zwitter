@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import "./Auth.css";
 import Logo from "../../img/logo.png";
+import { useDispatch, useSelector } from "react-redux";
+import { logIn, signUp } from "../../actions/AuthActions.js";
 
 const Auth = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.authReducer.loading);
+  console.log(loading);
   const [isSignUp, setIsSignUp] = useState(false);
+
   const [data, setData] = useState({
     firstname: "",
     lastname: "",
@@ -11,6 +17,7 @@ const Auth = () => {
     password: "",
     confirmpass: "",
   });
+
   const [confirmPass, setConfirmPass] = useState(true);
 
   const handleChange = (e) => {
@@ -21,13 +28,12 @@ const Auth = () => {
     e.preventDefault();
 
     if (isSignUp) {
-      if (data.password !== data.confirmpass) {
-        setConfirmPass(false);
-      }
+      data.password === data.confirmpass
+        ? dispatch(signUp(data))
+        : setConfirmPass(false);
+    } else {
+      dispatch(logIn(data));
     }
-    // } else {
-    //   dispatch(logIn(data));
-    // }
   };
 
   const resetForm = () => {
@@ -52,10 +58,9 @@ const Auth = () => {
       </div>
 
       {/* <Login/> or </SignUp>*/}
-
       <div className="a-right">
         <form action="" className="infoForm authForm" onSubmit={handleSubmit}>
-          <h3>{isSignUp ? "Sign up" : "Login"}</h3>
+          <h3>{isSignUp ? "Sign Up" : "Log In"}</h3>
 
           {isSignUp && (
             <div>
@@ -108,6 +113,7 @@ const Auth = () => {
               />
             )}
           </div>
+
           <span
             style={{
               display: confirmPass ? "none" : "block",
@@ -119,24 +125,34 @@ const Auth = () => {
           >
             *Confirm Password is not same*
           </span>
+
           <div>
             <span
-              style={{ fontSize: "12px", cursor: "pointer" }}
+              style={{
+                fontSize: "12px",
+                cursor: "pointer",
+                textDecoration: "underline",
+              }}
               onClick={() => {
                 resetForm();
                 setIsSignUp((prev) => !prev);
               }}
             >
               {isSignUp
-                ? "Already have an account. Login!"
-                : "Don't have an account? Sign up!"}
+                ? "Already have an account? Login"
+                : "Don't have an account? Sign up"}
             </span>
+            <button
+              className="button infoButton"
+              type="Submit"
+              disabled={loading}
+            >
+              {loading ? "Loading..." : isSignUp ? "SignUp" : "Login"}
+            </button>
           </div>
-          <button className="button infoButton" type="submit">
-            {isSignUp ? "Sign up" : "Login"}
-          </button>
         </form>
       </div>
+      {/* <Signup/> */}
     </div>
   );
 };
