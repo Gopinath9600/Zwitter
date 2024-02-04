@@ -2,19 +2,19 @@ import UserModel from "../Models/UserModel.js";
 import bcrypt from "bcrypt";
 
 export const registerUser = async (req, res) => {
-  const { username, password, firstname, lastname } = req.body;
+  // const { username, password, firstname, lastname } = req.body;
 
   const salt = await bcrypt.genSalt(10);
-  const hashedPass = await bcrypt.hash(password, salt);
+  const hashedPass = await bcrypt.hash(req.body.password, salt);
 
-  const newUser = new UserModel({
-    username,
-    password: hashedPass,
-    firstname,
-    lastname,
-  });
+  const newUser = new UserModel(req.body);
+  const { username } = req.body;
 
   try {
+    const oldUser = await UserModel.findOne({ username: username });
+    if (oldUser) {
+      res.status(400).json({ message: "User already registered." });
+    }
     await newUser.save();
     res.status(200).json(newUser);
   } catch (error) {
