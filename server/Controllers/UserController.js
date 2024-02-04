@@ -1,5 +1,6 @@
 import UserModel from "../Models/UserModel.js";
 import bcrypt, { genSalt } from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res) => {
   try {
@@ -44,14 +45,14 @@ export const updateUser = async (req, res) => {
       const user = await UserModel.findByIdAndUpdate(id, req.body, {
         new: true, // id should be updated by new data which is in req.body
       });
-      //   const token = jwt.sign(
-      //     { username: user.username, id: user._id },
-      //     process.env.JWT_KEY,
-      //     { expiresIn: "1h" }
-      //   );
+      const token = jwt.sign(
+        { username: user.username, id: user._id },
+        process.env.JWT_KEY,
+        { expiresIn: "1h" }
+      );
 
-      //   res.status(200).json({ user, token });
-      res.status(200).json(user);
+      res.status(200).json({ user, token });
+      // res.status(200).json(user);
     } catch (error) {
       res.status(500).json(error);
     }
