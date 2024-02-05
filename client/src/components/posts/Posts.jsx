@@ -17,7 +17,7 @@ const Posts = () => {
   }, []);
 
   if (!posts) return "No Posts!";
-  if (params.id) posts = posts.filter((post) => post.userId === params.id);
+  if (params.id) posts = posts.filter((post) => post.userId === params.id); //showing posts of only the user on his profile page
   return (
     <div className="Posts">
       {loading
