@@ -3,6 +3,7 @@ import axios from "axios";
 //baseURL indicates that evertime we make a request to server port 5000 is used
 const API = axios.create({ baseURL: "http://localhost:5001" });
 
+//for the authMiddleware
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
     req.headers.Authorization = `Bearer ${
