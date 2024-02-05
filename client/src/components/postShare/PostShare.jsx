@@ -108,6 +108,7 @@ const PostShare = () => {
               name="myImage"
               ref={imageRef}
               onChange={onImageChange}
+              accept="image/*, video/*"
             />
           </div>
         </div>
