@@ -9,6 +9,7 @@ import Noti from "../../img/noti.png";
 import Comment from "../../img/comment.png";
 import { UilSetting } from "@iconscout/react-unicons";
 import { Link } from "react-router-dom";
+import ChatBox from "../../components/chatbox/ChatBox";
 
 const Chat = () => {
   const { user } = useSelector((state) => state.authReducer.authData);
@@ -32,7 +33,7 @@ const Chat = () => {
     <div className="Chat">
       <div className="Left-side-chat">
         <LogoSearch />
-        <h2>Chats</h2>
+        <h2 style={{ padding: "0.8rem" }}>Chats</h2>
         <div className="Chat-list">
           {chats.map((chat) => {
             return (
@@ -55,11 +56,10 @@ const Chat = () => {
             <Link to="../chat">
               <img src={Comment} alt="" />
             </Link>
-
-            {/* chat body */}
-            {/* <ChatBox chat={currentChat} currentUser = {user._id} /> */}
           </div>
         </div>
+        {/* chat body */}
+        <ChatBox chat={currentChat} currentUser={user._id} />
       </div>
     </div>
   );
