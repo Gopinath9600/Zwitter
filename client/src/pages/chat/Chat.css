@@ -8,7 +8,7 @@
 .Left-side-chat {
   display: flex;
   flex-direction: column;
-  /* gap: 0.5rem; */
+  gap: 1rem;
 }
 
 .Chat-container {
@@ -17,10 +17,11 @@
   gap: 1rem;
   background: var(--cardColor);
   border-radius: 1rem;
-  padding: 1rem;
+  /* padding: 1rem; */
   height: auto;
   min-height: 80vh;
   overflow: scroll;
+  padding-top: 1rem;
 }
 
 .Chat-list {
