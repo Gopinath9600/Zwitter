@@ -16,8 +16,11 @@ const Post = ({ data }) => {
 
   // Update state when the 'data' prop changes
   useEffect(() => {
-    setLiked(data.likes.includes(user._id));
-    setLikes(data.likes.length);
+    // Update state if data.likes is defined
+    if (data.likes) {
+      setLiked(data.likes.includes(user._id));
+      setLikes(data.likes.length);
+    }
   }, [data, user._id]);
 
   const handleClick = () => {

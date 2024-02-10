@@ -1,5 +1,4 @@
 import * as UploadApi from "../api/UploadRequest";
-// import { getTimelinePosts } from "./PostAction";
 
 export const uploadImage = (data) => async (dispatch) => {
   try {
@@ -14,10 +13,8 @@ export const uploadPost = (data) => async (dispatch) => {
   dispatch({ type: "UPLOAD_START" });
   console.log("Uploading started");
   try {
-    const newPost = { ...data, likes: [] };
-    const response = await UploadApi.uploadPost(newPost);
-    dispatch({ type: "UPLOAD_SUCCESS", data: response.data });
-    // dispatch(getTimelinePosts(data.userId));
+    const newPost = await UploadApi.uploadPost(data);
+    dispatch({ type: "UPLOAD_SUCCESS", data: newPost.data });
   } catch (error) {
     console.log(error);
     dispatch({ type: "UPLOAD_FAIL" });

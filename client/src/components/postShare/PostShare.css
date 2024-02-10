@@ -47,6 +47,8 @@
 .previewImage {
   position: relative;
 }
+
+/* cross button at the top right corner of previewimage */
 .previewImage > svg {
   position: absolute;
   right: 1rem;

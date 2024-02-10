@@ -1,6 +1,7 @@
 import express from "express";
-const router = express.Router();
 import multer from "multer"; // for uploading multimedia like photo, video on server side
+
+const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
