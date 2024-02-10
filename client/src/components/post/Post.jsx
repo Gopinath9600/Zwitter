@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Post.css";
 import Comment from "../../img/comment.png";
 import Share from "../../img/share.png";
@@ -10,9 +10,15 @@ import { likePost } from "../../actions/PostAction";
 
 const Post = ({ data }) => {
   const { user } = useSelector((state) => state.authReducer.authData);
-  const [liked, setLiked] = useState(data.likes.includes(user._id));
-  const [likes, setLikes] = useState(data.likes.length);
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(null);
   const dispatch = useDispatch();
+
+  // Update state when the 'data' prop changes
+  useEffect(() => {
+    setLiked(data.likes.includes(user._id));
+    setLikes(data.likes.length);
+  }, [data, user._id]);
 
   const handleClick = () => {
     // likePost(data._id, user._id);

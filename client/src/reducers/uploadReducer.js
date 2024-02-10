@@ -8,7 +8,7 @@ const postReducer = (
     case "UPLOAD_SUCCESS":
       return {
         ...state,
-        posts: [action.data, ...state.posts],
+        posts: [action.data, ...state.posts.map((post) => ({ ...post }))],
         error: false,
         uploading: false,
       };

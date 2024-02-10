@@ -11,12 +11,13 @@ import { uploadImage, uploadPost } from "../../actions/UploadActions";
 
 const PostShare = () => {
   const [image, setImage] = useState(null);
-  const imageRef = useRef();
+
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.authReducer.authData);
   const { loading } = useSelector((state) => state.postReducer.uploading);
   const desc = useRef();
+  const imageRef = useRef();
 
   const serverPublic = process.env.REACT_APP_PUBLIC_FOLDER;
 
@@ -108,7 +109,6 @@ const PostShare = () => {
               name="myImage"
               ref={imageRef}
               onChange={onImageChange}
-              accept="image/*, video/*"
             />
           </div>
         </div>
