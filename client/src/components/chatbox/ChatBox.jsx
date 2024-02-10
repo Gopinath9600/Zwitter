@@ -1,18 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
+import { addMessage, getMessages } from "../../api/MessageRequest";
 import { getUser } from "../../api/UserRequest";
 import "./ChatBox.css";
 import { format } from "timeago.js";
-import { addMessage, getMessages } from "../../api/MessageRequest";
 import InputEmoji from "react-input-emoji";
 
 const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
   const [userData, setUserData] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
-  const scroll = useRef();
-  const imageRef = useRef();
 
   const handleChange = (newMessage) => {
     setNewMessage(newMessage);
@@ -39,7 +36,6 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
       try {
         const { data } = await getMessages(chat._id);
         setMessages(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -47,6 +43,11 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
 
     if (chat !== null) fetchMessages();
   }, [chat]);
+
+  // Always scroll to last Message
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   // Send Message
   const handleSend = async (e) => {
@@ -77,11 +78,8 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
     }
   }, [receivedMessage]);
 
-  //   Always scroll to last Message
-  useEffect(() => {
-    scroll.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
+  const scroll = useRef();
+  const imageRef = useRef();
   return (
     <>
       <div className="ChatBox-container">
@@ -127,7 +125,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
               {messages.map((message) => (
                 <>
                   <div
-                    // ref={scroll}
+                    ref={scroll}
                     className={
                       message.senderId === currentUser
                         ? "message own"
@@ -142,7 +140,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
             </div>
             {/* chat-sender */}
             <div className="chat-sender">
-              <div>+</div>
+              <div onClick={() => imageRef.current.click()}>+</div>
               <InputEmoji value={newMessage} onChange={handleChange} />
               <div className="send-button button" onClick={handleSend}>
                 Send
@@ -152,7 +150,7 @@ const ChatBox = ({ chat, currentUser, setSendMessage, receivedMessage }) => {
                 name=""
                 id=""
                 style={{ display: "none" }}
-                // ref={imageRef}
+                ref={imageRef}
               />
             </div>{" "}
           </>

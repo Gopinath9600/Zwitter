@@ -17,6 +17,9 @@
   width: 1.5rem;
   height: 1.5rem;
 }
+.navIcons > img:nth-of-type(3) {
+  color: orange;
+}
 .r-button {
   height: 3rem;
   width: 80%;
